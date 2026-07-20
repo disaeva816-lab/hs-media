@@ -149,8 +149,8 @@ src={avatar}
 alt="Аватар"
 
 className="
-h-20
-w-20
+h-18
+w-18
 rounded-full
 object-cover
 "
