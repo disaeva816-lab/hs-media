@@ -8,9 +8,12 @@ import { buildings } from "@/data/buildings";
 
 import { toast } from "sonner";
 
+
 export default function NewEquipmentPage() {
 
+
   const router = useRouter();
+
 
 
   const categories = [
@@ -25,79 +28,76 @@ export default function NewEquipmentPage() {
   ];
 
 
+
   const statuses = [
-
     {
-      value: "working",
-      label: "Исправно",
+      value:"working",
+      label:"Исправно",
     },
-
     {
-      value: "checking",
-      label: "На проверке",
+      value:"checking",
+      label:"На проверке",
     },
-
     {
-      value: "broken",
-      label: "Неисправно",
+      value:"broken",
+      label:"Неисправно",
     },
-
   ];
 
 
 
-  const [name, setName] =
+  const [name,setName] =
     useState("");
 
-  const [brand, setBrand] =
+  const [brand,setBrand] =
     useState("");
 
-  const [model, setModel] =
+  const [model,setModel] =
     useState("");
 
-  const [category, setCategory] =
+  const [category,setCategory] =
     useState(categories[0]);
 
 
-  const [building, setBuilding] =
+  const [building,setBuilding] =
     useState(buildings[0].name);
 
 
-  const rooms =
-    useMemo(() => {
+  const rooms = useMemo(()=>{
 
-      return (
-        buildings.find(
-          item =>
-            item.name === building
-        )?.rooms || []
-      );
+    return (
+      buildings.find(
+        item=>item.name===building
+      )?.rooms || []
+    );
 
-    }, [building]);
+  },[building]);
 
 
-  const [room, setRoom] =
+
+  const [room,setRoom] =
     useState(
       buildings[0].rooms[0]
     );
 
 
-  const [status, setStatus] =
+  const [status,setStatus] =
     useState("working");
 
 
-  const [loading, setLoading] =
+  const [loading,setLoading] =
     useState(false);
 
 
 
-  function generateInventoryNumber(
-    id:number
-  ){
+
+  function generateInventoryNumber(id:number){
 
     return `EQ-${String(id).padStart(6,"0")}`;
 
   }
+
+
 
 
 
@@ -120,57 +120,76 @@ export default function NewEquipmentPage() {
 
 
 
-    const { data: created, error:createError } =
+    const {
 
-      await supabase
+      data:created,
 
-        .from("equipment")
+      error:createError
 
-        .insert({
+    } = await supabase
 
-          name,
+      .from("equipment")
 
-          brand,
+      .insert({
 
-          model,
+        name:name.trim(),
 
-          category,
+        brand:brand.trim(),
 
-          status,
+        model:model.trim(),
 
-          base_building:
-            building,
+        category,
 
-          base_room:
-            room,
+        status,
 
-          current_building:
-            building,
 
-          current_room:
-            room,
+        base_building:
+          building,
 
-          current_holder_id:
-            null,
+        base_room:
+          room,
 
-          taken_at:
-            null,
 
-          history:
-            [],
+        current_building:
+          building,
 
-          is_deleted:
-            false,
+        current_room:
+          room,
 
-        })
 
-        .select("id")
+        current_holder_id:
+          null,
 
-        .single();
+
+        taken_at:
+          null,
+
+
+        history:
+          [],
+
+
+        is_deleted:
+          false,
+
+
+      })
+
+      .select("id")
+
+      .single();
+
+
 
 
 
     if(createError || !created){
+
+
+      console.error(
+        "CREATE ERROR:",
+        createError
+      );
 
 
       setLoading(false);
@@ -181,12 +200,11 @@ export default function NewEquipmentPage() {
       );
 
 
-      console.error(createError);
-
-
       return;
 
     }
+
+
 
 
 
@@ -197,29 +215,37 @@ export default function NewEquipmentPage() {
 
 
 
-    const { error:updateError } =
 
-      await supabase
 
-        .from("equipment")
+    const {
 
-        .update({
+      error:updateError
 
-          inventory_number:
-            inventoryNumber,
+    } = await supabase
 
-          qr_code:
-            inventoryNumber,
+      .from("equipment")
 
-        })
+      .update({
 
-        .eq(
+        inventory_number:
+          inventoryNumber,
 
-          "id",
 
-          created.id
+        qr_code:
+          inventoryNumber,
 
-        );
+      })
+
+      .eq(
+
+        "id",
+
+        created.id
+
+      );
+
+
+
 
 
 
@@ -229,23 +255,31 @@ export default function NewEquipmentPage() {
 
 
 
-   if (error) {
 
-  console.log("INSERT ERROR:", error);
+    if(updateError){
 
-  toast.error(
-    error.message
-  );
 
-  return;
+      console.error(
+        "NUMBER ERROR:",
+        updateError
+      );
 
-}
+
+      toast.error(
+        "Оборудование создано, но номер не присвоен"
+      );
+
+
+      return;
+
+    }
+
 
 
 
 
     toast.success(
-      "Оборудование успешно добавлено"
+      "Оборудование добавлено"
     );
 
 
@@ -259,32 +293,19 @@ export default function NewEquipmentPage() {
 
 
 
-
-
   return (
 
-    <main className="
-      min-h-screen
-      bg-[#F7F8FA]
-    ">
+    <main className="min-h-screen bg-[#F7F8FA]">
 
 
-      <div className="
-        mx-auto
-        max-w-md
-        px-6
-        py-8
-      ">
+      <div className="mx-auto max-w-md px-6 py-8">
 
 
         <button
 
-          onClick={() => router.back()}
+          onClick={()=>router.back()}
 
-          className="
-            mb-6
-            text-gray-600
-          "
+          className="mb-6 text-gray-600"
 
         >
 
@@ -319,98 +340,43 @@ export default function NewEquipmentPage() {
 
 
           <input
-
             value={name}
-
-            onChange={(e)=>
-              setName(e.target.value)
-            }
-
+            onChange={e=>setName(e.target.value)}
             placeholder="Название"
-
-            className="
-              w-full
-              rounded-2xl
-              border
-              p-3
-            "
-
+            className="w-full rounded-2xl border p-3"
           />
 
 
-
           <input
-
             value={brand}
-
-            onChange={(e)=>
-              setBrand(e.target.value)
-            }
-
+            onChange={e=>setBrand(e.target.value)}
             placeholder="Производитель"
-
-            className="
-              w-full
-              rounded-2xl
-              border
-              p-3
-            "
-
+            className="w-full rounded-2xl border p-3"
           />
 
 
-
           <input
-
             value={model}
-
-            onChange={(e)=>
-              setModel(e.target.value)
-            }
-
+            onChange={e=>setModel(e.target.value)}
             placeholder="Модель"
-
-            className="
-              w-full
-              rounded-2xl
-              border
-              p-3
-            "
-
+            className="w-full rounded-2xl border p-3"
           />
 
 
 
           <select
-
             value={category}
-
-            onChange={(e)=>
-              setCategory(e.target.value)
-            }
-
-            className="
-              w-full
-              rounded-2xl
-              border
-              p-3
-            "
-
+            onChange={e=>setCategory(e.target.value)}
+            className="w-full rounded-2xl border p-3"
           >
 
             {categories.map(item=>(
 
-              <option
-                key={item}
-                value={item}
-              >
-
+              <option key={item}>
                 {item}
-
               </option>
 
             ))}
-
 
           </select>
 
@@ -421,17 +387,13 @@ export default function NewEquipmentPage() {
 
             value={building}
 
-            onChange={(e)=>{
+            onChange={e=>{
 
-              setBuilding(
-                e.target.value
-              );
-
+              setBuilding(e.target.value);
 
               const newBuilding =
                 buildings.find(
-                  item =>
-                    item.name === e.target.value
+                  item=>item.name===e.target.value
                 );
 
 
@@ -443,28 +405,16 @@ export default function NewEquipmentPage() {
 
               }
 
-
             }}
 
-            className="
-              w-full
-              rounded-2xl
-              border
-              p-3
-            "
+            className="w-full rounded-2xl border p-3"
 
           >
 
-
             {buildings.map(item=>(
 
-              <option
-                key={item.name}
-                value={item.name}
-              >
-
+              <option key={item.name}>
                 {item.name}
-
               </option>
 
             ))}
@@ -475,33 +425,20 @@ export default function NewEquipmentPage() {
 
 
 
-
           <select
 
             value={room}
 
-            onChange={(e)=>
-              setRoom(e.target.value)
-            }
+            onChange={e=>setRoom(e.target.value)}
 
-            className="
-              w-full
-              rounded-2xl
-              border
-              p-3
-            "
+            className="w-full rounded-2xl border p-3"
 
           >
 
             {rooms.map(item=>(
 
-              <option
-                key={item}
-                value={item}
-              >
-
+              <option key={item}>
                 {item}
-
               </option>
 
             ))}
@@ -517,19 +454,11 @@ export default function NewEquipmentPage() {
 
             value={status}
 
-            onChange={(e)=>
-              setStatus(e.target.value)
-            }
+            onChange={e=>setStatus(e.target.value)}
 
-            className="
-              w-full
-              rounded-2xl
-              border
-              p-3
-            "
+            className="w-full rounded-2xl border p-3"
 
           >
-
 
             {statuses.map(item=>(
 
@@ -544,9 +473,7 @@ export default function NewEquipmentPage() {
 
             ))}
 
-
           </select>
-
 
 
 
@@ -563,7 +490,7 @@ export default function NewEquipmentPage() {
               rounded-3xl
               bg-gray-900
               py-4
-              font-medium
+              font-semibold
               text-white
               disabled:opacity-50
             "
@@ -571,13 +498,11 @@ export default function NewEquipmentPage() {
           >
 
             {
-
               loading
-
-              ? "Сохранение..."
-
-              : "Сохранить оборудование"
-
+              ?
+              "Сохранение..."
+              :
+              "Сохранить оборудование"
             }
 
 

@@ -97,10 +97,20 @@ export default function RootLayout({
         </UserProvider>
 
        <Toaster
-          position="top-center"
-          richColors
-          closeButton
-        />
+  position="bottom-center"
+  closeButton={false}
+  duration={2500}
+  toastOptions={{
+    classNames:{
+      toast:
+        "rounded-3xl shadow-lg border-0 px-5 py-4",
+      title:
+        "font-semibold",
+      description:
+        "text-sm text-gray-500",
+    },
+  }}
+/>
       </body>
 
 
