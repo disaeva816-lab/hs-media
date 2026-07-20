@@ -231,7 +231,7 @@ title="Свободно"
         {/* Главное меню */}
 
 
-        <div className="mt-5 space-y-1">
+        <div className="mt-5 space-y-2">
 
 
 
