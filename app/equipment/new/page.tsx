@@ -185,24 +185,25 @@ export default function NewEquipmentPage() {
 
     if(createError || !created){
 
+  setLoading(false);
 
-      console.error(
-        "CREATE ERROR:",
-        createError
-      );
+  toast.error(
+    createError?.message || "Ошибка создания"
+  );
 
+  console.error(
+    "SUPABASE CREATE ERROR:",
+    createError
+  );
 
-      setLoading(false);
+  console.error(
+    "FULL ERROR:",
+    JSON.stringify(createError, null, 2)
+  );
 
+  return;
 
-      toast.error(
-        "Не удалось добавить оборудование"
-      );
-
-
-      return;
-
-    }
+}
 
 
 

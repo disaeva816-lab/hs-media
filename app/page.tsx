@@ -9,6 +9,8 @@ import {
   Building2,
   ChevronRight,
   UserRound,
+  Package,
+  Sparkles,
 } from "lucide-react";
 
 
@@ -47,7 +49,15 @@ export default function Home() {
   ).length;
 
 
+const freeEquipmentCount =
 
+equipment.filter(
+
+(item:any) =>
+
+!item.current_holder_id
+
+).length;
 
 
 
@@ -71,91 +81,150 @@ export default function Home() {
 
 
 
-        <div className="mb-3">
+        <div className="
+  rounded-3xl
+  bg-white
+  p-6
+  shadow-sm
+">
+
+
+<div className="
+  flex
+  items-center
+  justify-between
+">
+
+
+<div>
+
+<p className="
+text-sm
+text-gray-500
+">
+
+Добро пожаловать
+
+</p>
+
+
+<h1 className="
+mt-2
+text-3xl
+font-semibold
+text-gray-900
+">
+
+{user}
+
+</h1>
+
+
+<div className="
+mt-3
+flex
+items-center
+gap-2
+text-sm
+text-blue-700
+">
+
+<Sparkles size={16}/>
+
+Система оборудования
+
+</div>
+
+
+</div>
 
 
 
-          <p className="text-sm text-gray-500">
+{avatar ? (
 
-            Добро пожаловать,
+<img
 
-          </p>
+src={avatar}
 
+alt="Аватар"
 
+className="
+h-16
+w-16
+rounded-full
+object-cover
+"
 
+/>
 
+) : (
 
+<div className="
+flex
+h-16
+w-16
+items-center
+justify-center
+rounded-full
+bg-blue-50
+text-blue-800
+">
 
-          <div className="mt-3 flex items-center gap-3">
+<UserRound size={26}/>
 
+</div>
 
-
-            {avatar ? (
-
-
-              <img
-
-                src={avatar}
-
-                alt="Аватар"
-
-                className="
-                  h-18
-                  w-18
-                  rounded-full
-                  object-cover
-                "
-
-              />
-
-
-            ) : (
-
-
-              <div
-                 className="
-                   flex
-                   h-18
-                   w-18
-                   items-center
-                   justify-center
-                   rounded-full
-                   bg-gray-100
-                   text-blue-800
-                  "
-                >
-               <UserRound size={24}/>
-               
-               </div>
+)}
 
 
-            )}
+</div>
 
 
-            <h1
+<div className="
+mt-5
+grid
+grid-cols-3
+gap-3
+">
 
-              className="
-                text-3xl
-                font-semibold
-                tracking-tight
-                text-gray-900
-              "
 
-            >
+<MiniStat
 
-              {user}
+icon={<Package size={20}/>}
 
-            </h1>
+value={equipment.length}
+
+title="Всего"
+
+/>
+
+
+<MiniStat
+
+icon={<Backpack size={20}/>}
+
+value={myEquipmentCount}
+
+title="Моё"
+
+/>
 
 
 
-          </div>
+<MiniStat
+
+icon={<Building2 size={20}/>}
+
+value={freeEquipmentCount}
+
+title="Свободно"
+
+/>
 
 
 
-
-        </div>
-
+</div>
+</div>
 
 
 
@@ -272,7 +341,71 @@ export default function Home() {
 
 }
 
+function MiniStat({
 
+icon,
+
+value,
+
+title,
+
+}:{
+
+icon:React.ReactNode;
+
+value:number;
+
+title:string;
+
+}){
+
+
+return (
+
+<div className="
+rounded-3xl
+bg-white
+p-4
+shadow-sm
+">
+
+
+<div className="
+text-blue-700
+">
+
+{icon}
+
+</div>
+
+
+<p className="
+mt-2
+text-xl
+font-bold
+text-gray-900
+">
+
+{value}
+
+</p>
+
+
+<p className="
+text-xs
+text-gray-500
+">
+
+{title}
+
+</p>
+
+
+</div>
+
+);
+
+}
 
 function MenuCard({
 
