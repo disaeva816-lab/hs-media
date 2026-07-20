@@ -129,7 +129,7 @@ text-sm
 text-blue-700
 ">
 
-<Sparkles size={16}/>
+<Sparkles size={14}/>
 
 Система управления оборудованием
 
