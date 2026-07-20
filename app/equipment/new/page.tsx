@@ -229,20 +229,17 @@ export default function NewEquipmentPage() {
 
 
 
-    if(updateError){
+   if (error) {
 
+  console.log("INSERT ERROR:", error);
 
-      toast.error(
-        "Оборудование создано, но не удалось создать номер"
-      );
+  toast.error(
+    error.message
+  );
 
+  return;
 
-      console.error(updateError);
-
-
-      return;
-
-    }
+}
 
 
 
