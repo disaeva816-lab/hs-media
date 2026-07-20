@@ -103,7 +103,7 @@ text-sm
 text-gray-500
 ">
 
-Добро пожаловать
+Добро пожаловать,
 
 </p>
 
@@ -231,7 +231,7 @@ title="Свободно"
         {/* Главное меню */}
 
 
-        <div className="space-y-4">
+        <div className="mt-5 space-y-3">
 
 
 
