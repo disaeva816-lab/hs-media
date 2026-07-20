@@ -111,7 +111,7 @@ const ADMIN_PASSWORD = "admin";
         min-h-screen
         max-w-md
         flex-col
-        justify-center
+        justify-start
         px-3
       ">
 
@@ -124,7 +124,7 @@ const ADMIN_PASSWORD = "admin";
           text-gray-900
         ">
 
-          HS-Media
+          Pulse
 
         </h1>
 
@@ -132,7 +132,7 @@ const ADMIN_PASSWORD = "admin";
 
 
         <p className="
-          mt-3
+          mt-6
           text-center
           text-gray-500
         ">
