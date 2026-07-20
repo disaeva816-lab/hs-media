@@ -112,7 +112,7 @@ const ADMIN_PASSWORD = "admin";
         max-w-md
         flex-col
         px-3
-        pt-4
+        pt-6
         pb-24
       ">
 
