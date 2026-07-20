@@ -112,7 +112,7 @@ const ADMIN_PASSWORD = "admin";
         max-w-md
         flex-col
         justify-center
-        px-6
+        px-3
       ">
 
 
@@ -124,7 +124,7 @@ const ADMIN_PASSWORD = "admin";
           text-gray-900
         ">
 
-          Hs-Media
+          HS-Media
 
         </h1>
 
