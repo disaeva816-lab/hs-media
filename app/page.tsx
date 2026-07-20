@@ -69,7 +69,7 @@ equipment.filter(
 
 
 
-      <div className="mx-auto max-w-md px-6 py-10">
+      <div className="mx-auto max-w-md px-5 pt-4 pb-24">
 
 
 
@@ -507,10 +507,6 @@ function MenuCard({
 
 
 
-
-
-
-
           <div>
 
 
@@ -527,11 +523,6 @@ function MenuCard({
             </h2>
 
 
-
-
-
-
-
             <p className="
               mt-1
               text-sm
@@ -545,21 +536,11 @@ function MenuCard({
             </p>
 
 
-
-
-
           </div>
 
 
 
-
-
-
         </div>
-
-
-
-
 
 
 
