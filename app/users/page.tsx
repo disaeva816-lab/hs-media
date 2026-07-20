@@ -124,7 +124,7 @@ const ADMIN_PASSWORD = "admin";
           text-gray-900
         ">
 
-          Pulse
+          Hs-Media
 
         </h1>
 
@@ -145,7 +145,7 @@ const ADMIN_PASSWORD = "admin";
 
 
 
-        <div className="mt-10 space-y-4">
+        <div className="mt-10 space-y-3">
 
 
 
