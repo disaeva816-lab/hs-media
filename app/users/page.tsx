@@ -111,8 +111,9 @@ const ADMIN_PASSWORD = "admin";
         min-h-screen
         max-w-md
         flex-col
-        justify-start
         px-3
+        pt-4
+        pb-24
       ">
 
 
