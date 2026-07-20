@@ -84,7 +84,7 @@ equipment.filter(
         <div className="
   rounded-3xl
   bg-white
-  p-6
+  p-4
   shadow-sm
 ">
 
@@ -149,8 +149,8 @@ src={avatar}
 alt="Аватар"
 
 className="
-h-16
-w-16
+h-14
+w-14
 rounded-full
 object-cover
 "
@@ -184,7 +184,7 @@ text-blue-800
 mt-5
 grid
 grid-cols-3
-gap-3
+gap-2
 ">
 
 
@@ -231,7 +231,7 @@ title="Свободно"
         {/* Главное меню */}
 
 
-        <div className="mt-5 space-y-3">
+        <div className="mt-5 space-y-2">
 
 
 

@@ -1,42 +1,38 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 import "./globals.css";
-
 
 import {
   EquipmentProvider,
 } from "@/context/EquipmentContext";
 
-
 import {
   UserProvider,
 } from "@/context/UserContext";
 
-
 import BottomNavigation from "@/components/BottomNavigation";
-
 
 import UserGuard from "@/components/UserGuard";
 
 import { Toaster } from "sonner";
 
 
-
-
-
-
-
 export const metadata: Metadata = {
-
-  title: "Pulse",
-
-  description: "Учет оборудования HS Media",
-
+  title: "HS Media",
+  description: "Система управления оборудованием школы",
+  applicationName: "HS Media",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "HS Media",
+  },
 };
 
 
-
-
+export const viewport: Viewport = {
+  themeColor: "#111827",
+};
 
 
 
