@@ -144,7 +144,7 @@ text-blue-700
 
 <img
 
-src={avatar}
+src={`/avatars/${avatar}.png`}
 
 alt="Аватар"
 

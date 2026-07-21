@@ -15,7 +15,7 @@ type UserContextType = {
   user: string;
 
   userId: number | null;
-  
+
   role: string;
 
   avatar: string;
@@ -27,10 +27,6 @@ type UserContextType = {
     id: number
   ) => Promise<void>;
 
-  setAvatar: (
-    avatar: string
-  ) => Promise<void>;
-
   logout: () => void;
 
 };
@@ -39,6 +35,7 @@ type UserContextType = {
 
 const UserContext =
   createContext<UserContextType | null>(null);
+
 
 
 export function UserProvider({
@@ -56,21 +53,21 @@ export function UserProvider({
     useState("");
 
 
-
   const [userId, setUserId] =
     useState<number | null>(null);
 
 
-const [role, setRole] =
-  useState("");
+  const [role, setRole] =
+    useState("");
+
 
   const [avatar, setAvatarState] =
     useState("");
 
 
-
   const [isLoaded, setIsLoaded] =
     useState(false);
+
 
 
 
@@ -88,12 +85,12 @@ const [role, setRole] =
         "pulseUserId"
       );
 
-const savedRole =
-  localStorage.getItem("pulseRole");
 
-if (savedRole) {
-  setRole(savedRole);
-}
+    const savedRole =
+      localStorage.getItem(
+        "pulseRole"
+      );
+
 
     const savedAvatar =
       localStorage.getItem(
@@ -102,38 +99,32 @@ if (savedRole) {
 
 
 
+    if(savedUser){
 
-    if (savedUser) {
+      setUserState(savedUser);
 
-      setUserState(
-        savedUser
+    }
+
+
+    if(savedUserId){
+
+      setUserId(
+        Number(savedUserId)
       );
 
     }
 
 
+    if(savedRole){
 
-    if (savedUserId) {
-
-      const id =
-        Number(savedUserId);
-
-
-      if (!Number.isNaN(id)) {
-
-        setUserId(id);
-
-      }
+      setRole(savedRole);
 
     }
 
 
+    if(savedAvatar){
 
-    if (savedAvatar) {
-
-      setAvatarState(
-        savedAvatar
-      );
+      setAvatarState(savedAvatar);
 
     }
 
@@ -149,16 +140,13 @@ if (savedRole) {
 
 
 
-
-
-
   async function setUser(
 
-    name: string,
+    name:string,
 
-    id: number
+    id:number
 
-  ) {
+  ){
 
 
     localStorage.setItem(
@@ -181,33 +169,42 @@ if (savedRole) {
 
 
 
-    const { data, error } =
+    const {data,error}=
+
       await supabase
-        .from("users")
-        .select("avatar, role")
-        .eq(
-          "id",
-          id
-        )
-        .single();
+
+      .from("users")
+
+      .select(
+        "avatar, role"
+      )
+
+      .eq(
+        "id",
+        id
+      )
+
+      .single();
 
 
 
-    if (!error && data) {
 
-const userRole =
-  data.role || "";
+    if(!error && data){
 
-setRole(userRole);
 
-localStorage.setItem(
-  "pulseRole",
-  userRole
-);
+
+      const userRole =
+        data.role || "";
+
 
       const userAvatar =
         data.avatar || "";
 
+
+
+      setRole(
+        userRole
+      );
 
 
       setAvatarState(
@@ -216,94 +213,28 @@ localStorage.setItem(
 
 
 
-      if (userAvatar) {
-
-        localStorage.setItem(
-          "pulseAvatar",
-          userAvatar
-        );
-
-      } else {
-
-        localStorage.removeItem(
-          "pulseAvatar"
-        );
-
-      }
-
-
-    }
-
-
-  }
-
-
-
-
-
-
-
-
-  async function setAvatar(
-
-    image: string
-
-  ) {
-
-
-    if (!userId) {
-
-      return;
-
-    }
-
-
-
-    const { error } =
-      await supabase
-        .from("users")
-        .update({
-
-          avatar: image,
-
-        })
-        .eq(
-          "id",
-          userId
-        );
-
-
-
-
-    if (error) {
-
-      console.error(
-        "Ошибка сохранения аватара",
-        error
+      localStorage.setItem(
+        "pulseRole",
+        userRole
       );
 
-      return;
+
+      localStorage.setItem(
+        "pulseAvatar",
+        userAvatar
+      );
+
 
     }
-
-
-
-
-    localStorage.setItem(
-      "pulseAvatar",
-      image
-    );
-
-
-    setAvatarState(
-      image
-    );
 
 
   }
 
 
-  function logout() {
+
+
+
+  function logout(){
 
 
     localStorage.removeItem(
@@ -315,11 +246,11 @@ localStorage.setItem(
       "pulseUserId"
     );
 
-    localStorage.removeItem(
-  "pulseRole"
-);
 
-setRole("");
+    localStorage.removeItem(
+      "pulseRole"
+    );
+
 
     localStorage.removeItem(
       "pulseAvatar"
@@ -331,9 +262,14 @@ setRole("");
 
     setUserId(null);
 
+    setRole("");
+
     setAvatarState("");
 
+
   }
+
+
 
 
 
@@ -356,8 +292,6 @@ setRole("");
 
         setUser,
 
-        setAvatar,
-
         logout,
 
       }}
@@ -377,10 +311,7 @@ setRole("");
 
 
 
-
-
-
-export function useUser() {
+export function useUser(){
 
 
   const context =
@@ -389,15 +320,13 @@ export function useUser() {
     );
 
 
-
-  if (!context) {
+  if(!context){
 
     throw new Error(
       "useUser должен использоваться внутри UserProvider"
     );
 
   }
-
 
 
   return context;
