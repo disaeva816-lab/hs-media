@@ -9,11 +9,13 @@ import {
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useSound } from "@/hooks/useSound";
 
 
 export default function RelaxPage() {
 
   const router = useRouter();
+  const { playSound } = useSound();
 
 const [mode, setMode] = useState<"menu" | "bubbles" | "breathing">("menu");
 
@@ -29,6 +31,7 @@ const [bubbles, setBubbles] = useState(
 
 
 function popBubble(id:number){
+      playSound("pop");
 
   setBubbles(prev =>
     prev.filter(
@@ -260,7 +263,7 @@ pointer-events-none
 </div>
 
 )}
-
+{mode === "menu" && (
         <div className="
           mt-5
           space-y-4
@@ -336,6 +339,7 @@ onClick={() => setMode("bubbles")}
 
 
           <button
+          onClick={() => setMode("breathing")}
 
             className="
               flex
@@ -400,6 +404,7 @@ onClick={() => setMode("bubbles")}
 
 
         </div>
+        )}
 
 
 

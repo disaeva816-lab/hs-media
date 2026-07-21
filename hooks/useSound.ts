@@ -1,44 +1,144 @@
 "use client";
 
-const sounds: Record<string, HTMLAudioElement> = {
-  click: new Audio("/sounds/click.wav"),
-  success: new Audio("/sounds/success.mp3"),
+
+import { useRef } from "react";
+
+
+const sounds = {
+  pop: "/sounds/pop.wav",
+  click: "/sounds/click.wav",
 };
 
 
-sounds.click.preload = "auto";
-sounds.success.preload = "auto";
+export function useSound(){
 
 
-export function useSound() {
+  const audioContext =
+    useRef<AudioContext | null>(null);
 
 
-  function playSound(
-    name: "click" | "success"
-  ) {
+  const buffers =
+    useRef<Record<string, AudioBuffer>>({});
 
 
-    const audio = sounds[name];
+
+  async function loadSound(
+    name:string
+  ){
+
+    if(
+      buffers.current[name]
+    ){
+
+      return buffers.current[name];
+
+    }
 
 
-    if (!audio) return;
+    if(!audioContext.current){
+
+      audioContext.current =
+        new AudioContext();
+
+    }
 
 
-    audio.currentTime = 0;
+    const response =
+      await fetch(
+        sounds[name as keyof typeof sounds]
+      );
 
-    audio.volume = 0.2;
+
+    const arrayBuffer =
+      await response.arrayBuffer();
 
 
-    audio.play().catch((error) => {
-      console.log("Sound error:", error);
-    });
+    const audioBuffer =
+      await audioContext.current.decodeAudioData(
+        arrayBuffer
+      );
+
+
+    buffers.current[name] =
+      audioBuffer;
+
+
+    return audioBuffer;
+
+  }
+
+
+
+
+  async function playSound(
+    name:"pop" | "click"
+  ){
+
+
+    try {
+
+
+      const ctx =
+        audioContext.current ??
+        new AudioContext();
+
+
+
+      audioContext.current =
+        ctx;
+
+
+
+      if(
+        ctx.state === "suspended"
+      ){
+
+        await ctx.resume();
+
+      }
+
+
+
+      const buffer =
+        await loadSound(name);
+
+
+
+      const source =
+        ctx.createBufferSource();
+
+
+
+      source.buffer =
+        buffer;
+
+
+
+      source.connect(
+        ctx.destination
+      );
+
+
+      source.start();
+
+
+    } catch(error){
+
+      console.log(
+        "Sound error",
+        error
+      );
+
+    }
 
 
   }
 
 
+
   return {
-    playSound,
+    playSound
   };
+
 
 }
