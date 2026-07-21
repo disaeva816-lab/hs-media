@@ -52,10 +52,10 @@ export default function BottomNavigation() {
         mx-auto
         flex
         max-w-md
-        items-end
+        items-center
         justify-around
         px-8
-        py-3
+        py-2
       ">
 
 
@@ -105,10 +105,10 @@ export default function BottomNavigation() {
 
 
           <div className="
-            -mt-8
+            -mt-6
             flex
-            h-16
-            w-16
+            h-[58px]
+            w-[58px]
             items-center
             justify-center
             rounded-full
@@ -120,7 +120,7 @@ export default function BottomNavigation() {
           ">
 
 
-            <QrCode size={30}/>
+            <QrCode size={28}/>
 
 
           </div>
@@ -159,7 +159,7 @@ export default function BottomNavigation() {
           }
 
           icon={
-            <User size={23}/>
+            <User size={26}/>
           }
 
           title="Профиль"

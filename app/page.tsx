@@ -131,7 +131,7 @@ text-blue-700
 
 <Sparkles size={14}/>
 
-Система управления оборудованием
+Управление оборудованием
 
 </div>
 
@@ -149,8 +149,8 @@ src={avatar}
 alt="Аватар"
 
 className="
-h-18
-w-18
+h-22
+w-22
 rounded-full
 object-cover
 "
@@ -231,7 +231,7 @@ title="Свободно"
         {/* Главное меню */}
 
 
-        <div className="mt-5 space-y-2">
+        <div className="mt-3 space-y-2">
 
 
 
