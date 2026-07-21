@@ -1,19 +1,39 @@
 "use client";
 
+const sounds: Record<string, HTMLAudioElement> = {
+  click: new Audio("/sounds/click.mp3"),
+  success: new Audio("/sounds/success.mp3"),
+};
+
+
+sounds.click.preload = "auto";
+sounds.success.preload = "auto";
+
+
 export function useSound() {
 
+
   function playSound(
-    name: string
+    name: "click" | "success"
   ) {
 
-    const audio = new Audio(
-      `/sounds/${name}.mp3`
-    );
 
-    audio.volume = 0.25;
+    const audio = sounds[name];
 
-    audio.play()
-      .catch(() => {});
+
+    if (!audio) return;
+
+
+    audio.currentTime = 0;
+
+    audio.volume = 0.2;
+
+
+    audio.play().catch((error) => {
+      console.log("Sound error:", error);
+    });
+
+
   }
 
 
