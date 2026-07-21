@@ -44,7 +44,7 @@ export default function BottomNavigation() {
       border-t
       border-gray-100
       bg-white
-      shadow-[0_-4px_12px_rgba(0,0,0,0.04)]
+      shadow-[0_-8px_24px_rgba(15,23,42,0.08)]
     ">
 
 
