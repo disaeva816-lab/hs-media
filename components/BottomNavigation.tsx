@@ -112,7 +112,7 @@ export default function BottomNavigation() {
             items-center
             justify-center
             rounded-full
-            bg-blue-800
+            bg-blue-900
             text-white
             shadow-lg
             ring-4
@@ -229,9 +229,9 @@ function NavItem({
         ${
           active
 
-          ? "text-gray-900"
+          ? "text-blue-900"
 
-          : "text-gray-400"
+          : "text-blue-400"
 
         }
       `}
