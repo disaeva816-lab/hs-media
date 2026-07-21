@@ -16,7 +16,7 @@ import {
 
 import { useUser } from "@/context/UserContext";
 import { useEquipment } from "@/context/EquipmentContext";
-import { useSound } from "@/hooks/useSound";
+
 
 
 export default function Home() {
@@ -34,8 +34,6 @@ export default function Home() {
     equipment,
   } = useEquipment();
 
-
-const { playSound } = useSound();
 
 
   const myEquipmentCount =
@@ -247,7 +245,6 @@ title="Свободно"
 
   subtitle="Найти колонку, микрофон или камеру"
 
-  onClick={() => playSound("click")}
 
 />
 
@@ -272,7 +269,6 @@ title="Свободно"
 
 
             subtitle="Быстро найти оборудование"
-             onClick={() => playSound("click")}
 
 
           />
@@ -293,7 +289,7 @@ title="Свободно"
             subtitle={
               `${myEquipmentCount} прибора закреплено за вами`
             }
- onClick={() => playSound("click")}
+
 
           />
 
@@ -312,7 +308,7 @@ title="Свободно"
 
 
             subtitle="Посмотреть оборудование по зданиям"
- onClick={() => playSound("click")}
+
 
           />
 
@@ -415,8 +411,6 @@ function MenuCard({
 
   subtitle,
 
-  onClick,
-
 }: {
 
   href:string;
@@ -427,9 +421,9 @@ function MenuCard({
 
   subtitle:string;
 
-  onClick?: () => void;
 
 }) {
+
 
 
 
@@ -442,7 +436,6 @@ function MenuCard({
 
  href={href}
 
- onClick={onClick}
 
 
       className="
