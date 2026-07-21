@@ -5,6 +5,7 @@ import {
   Sparkles,
   ChevronLeft,
   CircleDot,
+  RotateCcw,
 } from "lucide-react";
 
 import { useRouter } from "next/navigation";
@@ -12,60 +13,137 @@ import { useState } from "react";
 import { useSound } from "@/hooks/useSound";
 
 
+const messages = [
+  "✨ Ты молодец. Продолжай двигаться вперёд",
+  "🌿 Всё получится. Дай себе немного времени",
+  "💙 Ты справляешься лучше, чем думаешь",
+  "☀️ Сегодня хороший день для новых шагов",
+  "⭐ Не забывай гордиться собой",
+];
+
+
 export default function RelaxPage() {
 
+
   const router = useRouter();
+
   const { playSound } = useSound();
 
-const [mode, setMode] = useState<"menu" | "bubbles" | "breathing">("menu");
+
+  const [mode, setMode] =
+    useState<"menu" | "bubbles" | "breathing">("menu");
 
 
-const [popped, setPopped] = useState<number[]>([]);
-const [popping, setPopping] = useState<number | null>(null);
-
-const bubbleCount = 36;
+  const bubbleCount = 36;
 
 
-function popBubble(id:number){
-
-  if (popped.includes(id)) return;
-
-
-  playSound("pop");
+  const [popped, setPopped] =
+    useState<number[]>([]);
 
 
-  // вибрация телефона
-  if (
-    typeof navigator !== "undefined" &&
-    navigator.vibrate
-  ){
+  const [popping, setPopping] =
+    useState<number | null>(null);
 
-    navigator.vibrate(15);
+
+  const [messageBubble, setMessageBubble] =
+    useState(
+      Math.floor(Math.random() * bubbleCount)
+    );
+
+
+  const [message, setMessage] =
+    useState("");
+
+
+
+
+
+  function restartBubbles(){
+
+
+    setPopped([]);
+
+    setMessage("");
+
+    setMessageBubble(
+      Math.floor(
+        Math.random() * bubbleCount
+      )
+    );
 
   }
 
 
-  // запускаем анимацию сжатия
-  setPopping(id);
 
 
 
-  setTimeout(() => {
+  function popBubble(id:number){
 
 
-    setPopped(prev => [
-      ...prev,
-      id
-    ]);
+    if(popped.includes(id)) return;
 
 
-    setPopping(null);
+
+    if(id === messageBubble){
 
 
-  },200);
+      setMessage(
+        messages[
+          Math.floor(
+            Math.random()*messages.length
+          )
+        ]
+      );
 
 
-}
+      playSound("pop");
+
+
+      return;
+
+    }
+
+
+
+    playSound("pop");
+
+
+
+    if(
+      typeof navigator !== "undefined" &&
+      navigator.vibrate
+    ){
+
+      navigator.vibrate(15);
+
+    }
+
+
+
+    setPopping(id);
+
+
+
+    setTimeout(()=>{
+
+
+      setPopped(prev=>[
+        ...prev,
+        id
+      ]);
+
+
+      setPopping(null);
+
+
+    },200);
+
+
+  }
+
+
+
+
 
 
   return (
@@ -85,9 +163,10 @@ function popBubble(id:number){
       ">
 
 
+
         <button
 
-          onClick={() => router.back()}
+          onClick={()=>router.back()}
 
           className="
             mb-6
@@ -104,7 +183,10 @@ function popBubble(id:number){
 
           Назад
 
+
         </button>
+
+
 
 
 
@@ -136,11 +218,11 @@ function popBubble(id:number){
 
               <Sparkles size={24}/>
 
+
             </div>
 
 
             <div>
-
 
               <h1 className="
                 text-2xl
@@ -160,6 +242,7 @@ function popBubble(id:number){
 
                 Минутка спокойствия
 
+
               </p>
 
 
@@ -169,175 +252,28 @@ function popBubble(id:number){
           </div>
 
 
-
         </div>
 
 
-{mode === "bubbles" && (
-
-<div className="
-relative
-mt-5
-h-[420px]
-overflow-hidden
-rounded-3xl
-bg-white
-shadow-sm
-">
-
-
-<div className="
-absolute
-top-5
-left-0
-right-0
-text-center
-">
-
-<h2 className="
-font-semibold
-text-gray-900
-">
-
-Лопайте пузырьки 🫧
-
-</h2>
-
-<p className="
-mt-1
-text-sm
-text-gray-500
-">
-
-Лопнуто: {popped.length}
-
-</p>
-
-</div>
-
-
-<div className="
-grid
-grid-cols-6
-gap-3
-px-6
-pt-28
-">
-
-
-{
-Array.from(
- {length:bubbleCount}
-).map((_,index)=> (
-
-<button
-
-key={index}
-
-onClick={() => popBubble(index)}
-
-className={`
-aspect-square
-rounded-full
-border
-transition-all
-duration-200
-
-${
-popping === index
-?
-"bubble-pop"
-
-:
-""
-}
-
-
-${
-popped.includes(index)
-
-?
-"scale-90 bg-gray-100 border-gray-200"
-
-:
-
-"bg-gradient-to-br from-blue-100 to-purple-200 border-white shadow-md active:scale-75"
-
-}
-
-`}
-
->
-
-
-{!popped.includes(index) && (
-
-<div className="
-mx-auto
-mt-2
-h-2
-w-2
-rounded-full
-bg-white
-opacity-70
-"/>
-
-)}
-
-
-</button>
-
-))
-}
-
-
-</div>
-
-</div>
-
-)}
-{mode === "menu" && (
-        <div className="
-          mt-5
-          space-y-4
-        ">
 
 
 
-          <button
-onClick={() => setMode("bubbles")}
-            className="
-              flex
-              w-full
-              items-center
-              gap-4
-              rounded-3xl
-              bg-white
-              p-5
-              text-left
-              shadow-sm
-            "
 
-          >
+
+        {mode === "bubbles" && (
+
+          <div className="
+            mt-5
+            rounded-3xl
+            bg-white
+            p-5
+            shadow-sm
+          ">
 
 
             <div className="
-              flex
-              h-14
-              w-14
-              items-center
-              justify-center
-              rounded-2xl
-              bg-blue-50
-              text-blue-700
+              text-center
             ">
-
-              <CircleDot size={28}/>
-
-            </div>
-
-
-            <div>
 
 
               <h2 className="
@@ -345,8 +281,7 @@ onClick={() => setMode("bubbles")}
                 text-gray-900
               ">
 
-                Пузырьки
-                
+                Лопни пузырьки 🫧
 
               </h2>
 
@@ -357,7 +292,7 @@ onClick={() => setMode("bubbles")}
                 text-gray-500
               ">
 
-                Лопайте пузырьки и расслабляйтесь
+                Один из них хранит послание ✨
 
               </p>
 
@@ -365,79 +300,311 @@ onClick={() => setMode("bubbles")}
             </div>
 
 
-          </button>
 
-
-
-
-
-          <button
-          onClick={() => setMode("breathing")}
-
-            className="
-              flex
-              w-full
-              items-center
-              gap-4
-              rounded-3xl
-              bg-white
-              p-5
-              text-left
-              shadow-sm
-            "
-
-          >
 
 
             <div className="
-              flex
-              h-14
-              w-14
-              items-center
-              justify-center
-              rounded-2xl
-              bg-green-50
-              text-green-700
+              mt-6
+              grid
+              grid-cols-6
+              gap-3
             ">
 
-              <Wind size={28}/>
+
+              {Array.from({
+                length:bubbleCount
+              }).map((_,index)=>(
+
+
+                <button
+
+                  key={index}
+
+                  onClick={()=>
+                    popBubble(index)
+                  }
+
+
+                  className={`
+                    aspect-square
+                    rounded-full
+                    border
+                    transition-all
+                    duration-200
+
+                    ${
+                      popping===index
+                      ?
+                      "bubble-pop"
+                      :
+                      ""
+                    }
+
+
+                    ${
+                      popped.includes(index)
+
+                      ?
+                      "scale-90 bg-gray-100 border-gray-200"
+
+                      :
+
+                      "bg-gradient-to-br from-white via-blue-50 to-cyan-100 border-white shadow-lg shadow-blue-100/50 active:scale-75"
+
+                    }
+
+                  `}
+
+                >
+
+                  {
+                    !popped.includes(index)
+                    &&
+                    <div className="
+                      mx-auto
+                      mt-2
+                      h-2
+                      w-2
+                      rounded-full
+                      bg-white
+                      opacity-80
+                    "/>
+                  }
+
+
+                </button>
+
+
+              ))}
+
 
             </div>
 
 
-            <div>
 
 
-              <h2 className="
-                font-semibold
-                text-gray-900
+
+            {message && (
+
+              <div className="
+                mt-6
+                rounded-3xl
+                bg-blue-50
+                p-5
+                text-center
               ">
 
-                Дыхание
 
-              </h2>
+                <p className="
+                  font-medium
+                  text-gray-800
+                ">
 
-
-              <p className="
-                mt-1
-                text-sm
-                text-gray-500
-              ">
-
-                Спокойный ритм на 1 минуту
-
-              </p>
+                  {message}
 
 
-            </div>
+                </p>
 
 
-          </button>
+              </div>
+
+            )}
 
 
 
-        </div>
+
+
+
+
+            {popped.length >= bubbleCount-1 && (
+
+              <button
+
+                onClick={restartBubbles}
+
+                className="
+                  mt-5
+                  flex
+                  w-full
+                  items-center
+                  justify-center
+                  gap-2
+                  rounded-3xl
+                  bg-gray-900
+                  py-4
+                  text-white
+                "
+
+              >
+
+                <RotateCcw size={18}/>
+
+                Повторить
+
+
+              </button>
+
+
+            )}
+
+
+
+          </div>
+
+
         )}
+
+
+
+
+
+
+
+        {mode==="menu" && (
+
+          <div className="
+            mt-5
+            space-y-4
+          ">
+
+
+            <button
+
+              onClick={()=>
+                setMode("bubbles")
+              }
+
+              className="
+                flex
+                w-full
+                items-center
+                gap-4
+                rounded-3xl
+                bg-white
+                p-5
+                text-left
+                shadow-sm
+              "
+
+            >
+
+              <div className="
+                flex
+                h-14
+                w-14
+                items-center
+                justify-center
+                rounded-2xl
+                bg-blue-50
+                text-blue-700
+              ">
+
+                <CircleDot size={28}/>
+
+              </div>
+
+
+              <div>
+
+                <h2 className="
+                  font-semibold
+                  text-gray-900
+                ">
+
+                  Пузырьки
+
+                </h2>
+
+
+                <p className="
+                  mt-1
+                  text-sm
+                  text-gray-500
+                ">
+
+                  Лопни шарики и получи послание 💙
+
+                </p>
+
+              </div>
+
+
+            </button>
+
+
+
+
+
+
+            <button
+
+              onClick={()=>
+                setMode("breathing")
+              }
+
+              className="
+                flex
+                w-full
+                items-center
+                gap-4
+                rounded-3xl
+                bg-white
+                p-5
+                text-left
+                shadow-sm
+              "
+
+            >
+
+              <div className="
+                flex
+                h-14
+                w-14
+                items-center
+                justify-center
+                rounded-2xl
+                bg-green-50
+                text-green-700
+              ">
+
+                <Wind size={28}/>
+
+              </div>
+
+
+              <div>
+
+                <h2 className="
+                  font-semibold
+                  text-gray-900
+                ">
+
+                  Дыхание
+
+                </h2>
+
+
+                <p className="
+                  mt-1
+                  text-sm
+                  text-gray-500
+                ">
+
+                  Спокойный ритм на минуту
+
+                </p>
+
+
+              </div>
+
+
+            </button>
+
+
+          </div>
+
+        )}
+
 
 
 
@@ -446,6 +613,8 @@ onClick={() => setMode("bubbles")}
 
     </main>
 
+
   );
+
 
 }
