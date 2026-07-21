@@ -16,7 +16,7 @@ import {
 
 import { useUser } from "@/context/UserContext";
 import { useEquipment } from "@/context/EquipmentContext";
-
+import { useSound } from "@/hooks/useSound";
 
 
 export default function Home() {
@@ -35,7 +35,7 @@ export default function Home() {
   } = useEquipment();
 
 
-
+const { playSound } = useSound();
 
 
   const myEquipmentCount =
@@ -239,20 +239,17 @@ title="Свободно"
 
           <MenuCard
 
+  href="/search"
 
-            href="/search"
+  icon={<Search size={26}/>}
 
+  title="Поиск оборудования"
 
-            icon={<Search size={26}/>}
+  subtitle="Найти колонку, микрофон или камеру"
 
+  onClick={() => playSound("click")}
 
-            title="Поиск оборудования"
-
-
-            subtitle="Найти колонку, микрофон или камеру"
-
-
-          />
+/>
 
 
 
@@ -275,6 +272,7 @@ title="Свободно"
 
 
             subtitle="Быстро найти оборудование"
+             onClick={() => playSound("click")}
 
 
           />
@@ -295,7 +293,7 @@ title="Свободно"
             subtitle={
               `${myEquipmentCount} прибора закреплено за вами`
             }
-
+ onClick={() => playSound("click")}
 
           />
 
@@ -314,7 +312,7 @@ title="Свободно"
 
 
             subtitle="Посмотреть оборудование по зданиям"
-
+ onClick={() => playSound("click")}
 
           />
 
@@ -417,7 +415,21 @@ function MenuCard({
 
   subtitle,
 
+  onClick,
+
 }: {
+
+  href:string;
+
+  icon:React.ReactNode;
+
+  title:string;
+
+  subtitle:string;
+
+  onClick?: () => void;
+
+}) {
 
 
   href:string;
@@ -442,8 +454,9 @@ function MenuCard({
 
     <Link
 
+ href={href}
 
-      href={href}
+ onClick={onClick}
 
 
       className="
