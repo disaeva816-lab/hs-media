@@ -213,13 +213,19 @@ key={bubble.id}
 onClick={() => popBubble(bubble.id)}
 
 className="
+bubble
 absolute
 rounded-full
-bg-blue-100
-shadow-inner
 transition
 active:scale-75
+bg-gradient-to-br
+from-blue-100
+to-purple-200
+shadow-lg
+border
+border-white/70
 "
+
 
 style={{
 
@@ -236,10 +242,20 @@ height:bubble.size,
 >
 
 
+<div className="
+absolute
+top-3
+left-4
+h-3
+w-3
+rounded-full
+bg-white
+opacity-70
+pointer-events-none
+"/>
+
 </button>
-
 ))}
-
 
 </div>
 
