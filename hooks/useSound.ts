@@ -1,7 +1,7 @@
 "use client";
 
 const sounds: Record<string, HTMLAudioElement> = {
-  click: new Audio("/sounds/click.mp3"),
+  click: new Audio("/sounds/click.wav"),
   success: new Audio("/sounds/success.mp3"),
 };
 
