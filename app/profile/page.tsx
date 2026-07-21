@@ -86,8 +86,8 @@ export default function ProfilePage() {
                 alt="Фото пользователя"
 
                 className="
-                  h-24
-                  w-24
+                  h-30
+                  w-30
                   rounded-full
                   object-cover
                 "
