@@ -14,11 +14,65 @@ import { useSound } from "@/hooks/useSound";
 
 
 const messages = [
-  "✨ Ты молодец. Продолжай двигаться вперёд",
-  "🌿 Всё получится. Дай себе немного времени",
-  "💙 Ты справляешься лучше, чем думаешь",
-  "☀️ Сегодня хороший день для новых шагов",
-  "⭐ Не забывай гордиться собой",
+  "Сегодня ты уже сделала достаточно. Правда. 🤍",
+
+  "Не забывай: ты тоже человек, которому нужен отдых. 🌿",
+
+  "Ты не обязана всё контролировать. Мир не развалится. ☁️",
+
+  "Иногда лучший план — налить чай и немного выдохнуть. 🍵",
+
+  "Ты гораздо сильнее, чем сама о себе думаешь. 💙",
+
+  "Кто-то сегодня улыбнулся благодаря тебе. 😊",
+
+  "Не ругай себя за усталость. Она означает, что ты очень старалась. 🤍",
+
+  "Сегодня можно быть неидеальной. И этого более чем достаточно. ✨",
+
+  "Пусть сегодня случится хотя бы одна маленькая радость. 🌸",
+
+  "Ты уже проходила сложные дни. И этот тоже пройдёт. 🌅",
+
+  "Ты заслуживаешь заботы так же, как даришь её другим. 🫶",
+
+  "Иногда пять минут отдыха полезнее ещё одного часа работы. 🌿",
+
+  "Сегодняшний ты лучше вчерашнего. Этого уже достаточно. 💛",
+
+  "Улыбнись. Это был секретный пузырёк именно для тебя. 😊",
+
+  "Может быть, именно сейчас стоит сделать глубокий вдох. 🌬️",
+
+  "Ты не обязана всё успеть сегодня. 🌙",
+
+  "Спасибо, что заботишься о себе. Это очень важно. 💚",
+
+  "Если читаешь это — значит тебе улыбнулась удача. 🍀",
+
+  "Самое лучшее впереди. Правда. ✨",
+
+  "Ты молодец. Даже если сегодня кажется иначе. 🤍",
+
+  "Сегодня разрешается ничего никому не доказывать. 🌼",
+
+  "Пусть этот пузырёк станет напоминанием: ты ценна сама по себе. 💙",
+
+  "Иногда достаточно просто продолжать идти. ✨",
+
+  "Ты справишься. Как и всегда. 🌸",
+
+  "Мир становится немного лучше благодаря таким людям, как ты. 🌍",
+
+  "Ты заслуживаешь счастливых дней. ☀️",
+
+  "Отдохни ещё минутку. Ты никуда не опаздываешь. 🌿",
+
+  "Ты гораздо ближе к своей мечте, чем тебе кажется. 💫",
+
+  "Сегодня обязательно случится что-то хорошее. 🤍",
+
+  "Спасибо, что открыла именно этот пузырёк. 🫧"
 ];
 
 
@@ -60,8 +114,9 @@ export default function RelaxPage() {
 
   function restartBubbles(){
 
-
     setPopped([]);
+
+    setPopping(null);
 
     setMessage("");
 
@@ -71,7 +126,7 @@ export default function RelaxPage() {
       )
     );
 
-  }
+}
 
 
 
@@ -84,24 +139,29 @@ export default function RelaxPage() {
 
 
 
-    if(id === messageBubble){
+    if (id === messageBubble) {
 
+  playSound("pop");
 
-      setMessage(
-        messages[
-          Math.floor(
-            Math.random()*messages.length
-          )
-        ]
-      );
+  setMessage(
+    messages[
+      Math.floor(Math.random() * messages.length)
+    ]
+  );
 
+  setPopping(id);
 
-      playSound("pop");
+  setTimeout(() => {
 
+    setPopped(prev => [...prev, id]);
 
-      return;
+    setPopping(null);
 
-    }
+  }, 200);
+
+  return;
+
+}
 
 
 
@@ -326,6 +386,8 @@ export default function RelaxPage() {
 
 
                   className={`
+                    relative
+                    overflow-hidden
                     aspect-square
                     rounded-full
                     border
@@ -349,7 +411,8 @@ export default function RelaxPage() {
 
                       :
 
-                      "bg-gradient-to-br from-white via-blue-50 to-cyan-100 border-white shadow-lg shadow-blue-100/50 active:scale-75"
+                      "bg-gradient-to-br from-white via-sky-100 to-cyan-300 border-cyan-100 shadow-[0_6px_15px_rgba(56,189,248,0.25)]"
+
 
                     }
 
@@ -360,15 +423,18 @@ export default function RelaxPage() {
                   {
                     !popped.includes(index)
                     &&
-                    <div className="
-                      mx-auto
-                      mt-2
-                      h-2
-                      w-2
-                      rounded-full
-                      bg-white
-                      opacity-80
-                    "/>
+                    <div
+className="
+absolute
+left-3
+top-3
+h-3
+w-3
+rounded-full
+bg-white
+opacity-90
+blur-[0.3px]
+"/>
                   }
 
 
@@ -378,41 +444,57 @@ export default function RelaxPage() {
               ))}
 
 
-            </div>
 
+    
+{message && (
 
+<div
+  className="
+    mt-6
+    rounded-3xl
+    bg-gradient-to-br
+    from-sky-50
+    via-white
+    to-cyan-50
+    border
+    border-sky-100
+    p-6
+    text-center
+    shadow-sm
+  "
+>
 
+  <p
+    className="
+      text-xs
+      uppercase
+      tracking-[0.2em]
+      text-sky-500
+      font-semibold
+    "
+  >
+    ✨ Секретный пузырёк
+  </p>
 
+  <div className="my-5 text-4xl">
+    💙
+  </div>
 
-            {message && (
+  <p
+    className="
+      text-xl
+      leading-relaxed
+      font-medium
+      text-gray-800
+    "
+  >
+    {message}
 
-              <div className="
-                mt-6
-                rounded-3xl
-                bg-blue-50
-                p-5
-                text-center
-              ">
+        </p>
 
+</div>
 
-                <p className="
-                  font-medium
-                  text-gray-800
-                ">
-
-                  {message}
-
-
-                </p>
-
-
-              </div>
-
-            )}
-
-
-
-
+)}
 
 
 
@@ -453,8 +535,6 @@ export default function RelaxPage() {
 
 
         )}
-
-
 
 
 
