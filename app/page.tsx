@@ -149,8 +149,8 @@ src={`/avatars/${avatar}.png`}
 alt="Аватар"
 
 className="
-h-22
-w-22
+h-24
+w-24
 rounded-full
 object-cover
 "
@@ -431,20 +431,6 @@ function MenuCard({
 
 }) {
 
-
-  href:string;
-
-
-  icon:React.ReactNode;
-
-
-  title:string;
-
-
-  subtitle:string;
-
-
-}) {
 
 
 
