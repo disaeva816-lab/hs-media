@@ -11,6 +11,9 @@ import {
 
 import { useUser } from "@/context/UserContext";
 import { useEquipment } from "@/context/EquipmentContext";
+import {
+  Wind,
+} from "lucide-react";
 
 export default function ProfilePage() {
 
@@ -269,6 +272,64 @@ export default function ProfilePage() {
   </button>
 
 )}
+<button
+
+onClick={() => router.push("/relax")}
+
+className="
+mt-4
+flex
+w-full
+items-center
+gap-4
+rounded-3xl
+bg-white
+p-5
+shadow-sm
+"
+
+>
+
+<div className="
+flex
+h-12
+w-12
+items-center
+justify-center
+rounded-2xl
+bg-blue-50
+text-blue-700
+">
+
+<Wind size={24}/>
+
+</div>
+
+
+<div>
+
+<p className="
+font-semibold
+text-gray-900
+">
+
+Перезагрузка
+
+</p>
+
+<p className="
+text-sm
+text-gray-500
+">
+
+Минутка спокойствия
+
+</p>
+
+</div>
+
+
+</button>
 
         <button
 
