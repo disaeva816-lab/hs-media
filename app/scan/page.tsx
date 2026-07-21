@@ -249,27 +249,133 @@ export default function ScanPage() {
 
   return (
 
-    <main
+  <main className="
+    relative
+    min-h-screen
+    overflow-hidden
+    bg-black
+  ">
+
+
+    {/* Камера */}
+
+    <div
+      id="qr-reader"
       className="
-        min-h-screen
-        bg-black
+        absolute
+        inset-0
       "
-    >
+    />
 
-      <div
 
-        id="qr-reader"
 
+    {/* Верхняя часть */}
+
+    <div className="
+      absolute
+      top-0
+      left-0
+      right-0
+      z-10
+      px-6
+      pt-12
+      text-white
+    ">
+
+      <button
+        onClick={() => router.back()}
         className="
-          w-full
-          h-screen
+          text-sm
+          text-white/80
         "
+      >
+        ← Назад
+      </button>
 
-      />
+
+      <h1 className="
+        mt-6
+        text-3xl
+        font-semibold
+      ">
+        Сканирование QR
+      </h1>
 
 
-    </main>
+      <p className="
+        mt-2
+        text-sm
+        text-white/70
+      ">
+        Наведите камеру на QR-код оборудования
+      </p>
 
-  );
+
+    </div>
+
+
+
+
+    {/* Рамка сканирования */}
+
+    <div className="
+      pointer-events-none
+      absolute
+      inset-0
+      z-10
+      flex
+      items-center
+      justify-center
+    ">
+
+
+      <div className="
+        h-64
+        w-64
+        rounded-3xl
+        border-2
+        border-white
+        shadow-[0_0_40px_rgba(255,255,255,0.3)]
+      "/>
+
+
+    </div>
+
+
+
+    {/* Нижняя подсказка */}
+
+    <div className="
+      absolute
+      bottom-12
+      left-0
+      right-0
+      z-10
+      flex
+      justify-center
+    ">
+
+
+      <div className="
+        rounded-full
+        bg-black/50
+        px-5
+        py-3
+        text-sm
+        text-white
+        backdrop-blur
+      ">
+
+        Готов к сканированию
+
+      </div>
+
+
+    </div>
+
+
+  </main>
+
+);
 
 }
