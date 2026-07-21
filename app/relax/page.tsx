@@ -194,15 +194,6 @@ text-gray-900
 </h2>
 
 
-<p className="
-mt-1
-text-sm
-text-gray-500
-">
-
-Снимите напряжение
-
-</p>
 
 </div>
 
