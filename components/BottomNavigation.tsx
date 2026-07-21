@@ -97,7 +97,7 @@ export default function BottomNavigation() {
             items-center
             gap-0.5
             text-xs
-            text-gray-600
+            text-blue-900
           "
 
         >
@@ -112,7 +112,7 @@ export default function BottomNavigation() {
             items-center
             justify-center
             rounded-full
-            bg-blue-950
+            bg-blue-900
             text-white
             shadow-lg
             ring-4
