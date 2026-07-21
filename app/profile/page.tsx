@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 
 import {
-  Camera,
   LogOut,
   UserRound,
   Package,
@@ -22,7 +21,6 @@ export default function ProfilePage() {
   userId,
   role,
   avatar,
-  setAvatar,
   logout,
 } = useUser();
 
@@ -50,29 +48,6 @@ export default function ProfilePage() {
 
 }
 
-  function handlePhoto(
-    event: React.ChangeEvent<HTMLInputElement>
-  ) {
-
-    const file =
-      event.target.files?.[0];
-
-    if (!file) return;
-
-    const reader =
-      new FileReader();
-
-   reader.onload = async () => {
-
-  await setAvatar(
-    reader.result as string
-  );
-
-};
-
-    reader.readAsDataURL(file);
-
-  }
 
   return (
 
@@ -106,7 +81,7 @@ export default function ProfilePage() {
 
               <img
 
-                src={avatar}
+                src={`/avatars/${avatar}.png`}
 
                 alt="Фото пользователя"
 
@@ -152,42 +127,6 @@ export default function ProfilePage() {
               {user}
 
             </h2>
-
-            <label
-
-              className="
-                mt-5
-                flex
-                cursor-pointer
-                items-center
-                gap-2
-                rounded-2xl
-                bg-gray-100
-                px-4
-                py-2
-                text-sm
-                text-gray-700
-              "
-
-            >
-
-              <Camera size={17}/>
-
-              Изменить фото
-
-              <input
-
-                type="file"
-
-                accept="image/*"
-
-                onChange={handlePhoto}
-
-                className="hidden"
-
-              />
-
-            </label>
 
           </div>
 
