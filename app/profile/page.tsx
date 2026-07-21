@@ -142,13 +142,7 @@ export default function ProfilePage() {
     ? "Администратор"
     : "Пользователь"
   }
-<p className="
-  mt-3
-  text-sm
-  text-gray-400
-">
-  Pulse Media Center
-</p>
+
 </div>
           </div>
 
