@@ -40,3 +40,63 @@ body {
   height: 100% !important;
   object-fit: cover !important;
 }
+@keyframes floatBubble {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-18px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+
+@keyframes popBubble {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+
+.bubble {
+  animation: floatBubble 4s ease-in-out infinite;
+}
+@keyframes bubblePop {
+
+  0% {
+    transform: scale(1);
+  }
+
+
+  50% {
+    transform: scale(0.75);
+  }
+
+
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+}
+
+
+.bubble-pop {
+
+  animation:
+    bubblePop
+    0.2s
+    ease-out
+    forwards;
+
+}

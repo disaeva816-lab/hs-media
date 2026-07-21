@@ -20,44 +20,54 @@ export default function RelaxPage() {
 const [mode, setMode] = useState<"menu" | "bubbles" | "breathing">("menu");
 
 
-const [bubbles, setBubbles] = useState(
-  [
-    { id: 1, x: 20, y: 30, size: 70 },
-    { id: 2, x: 60, y: 20, size: 90 },
-    { id: 3, x: 40, y: 65, size: 60 },
-    { id: 4, x: 75, y: 55, size: 80 },
-  ]
-);
+const [popped, setPopped] = useState<number[]>([]);
+const [popping, setPopping] = useState<number | null>(null);
+
+const bubbleCount = 36;
 
 
 function popBubble(id:number){
-      playSound("pop");
 
-  setBubbles(prev =>
-    prev.filter(
-      bubble => bubble.id !== id
-    )
-  );
+  if (popped.includes(id)) return;
+
+
+  playSound("pop");
+
+
+  // вибрация телефона
+  if (
+    typeof navigator !== "undefined" &&
+    navigator.vibrate
+  ){
+
+    navigator.vibrate(15);
+
+  }
+
+
+  // запускаем анимацию сжатия
+  setPopping(id);
+
 
 
   setTimeout(() => {
 
-    setBubbles(prev => [
 
+    setPopped(prev => [
       ...prev,
-
-      {
-        id: Date.now(),
-        x: Math.random()*70 + 10,
-        y: Math.random()*70 + 10,
-        size: Math.random()*40 + 50,
-      }
-
+      id
     ]);
 
-  },500);
+
+    setPopping(null);
+
+
+  },200);
+
 
 }
+
+
   return (
 
     <main className="
@@ -193,63 +203,95 @@ text-gray-900
 
 </h2>
 
+<p className="
+mt-1
+text-sm
+text-gray-500
+">
 
+Лопнуто: {popped.length}
+
+</p>
 
 </div>
 
 
-{bubbles.map((bubble)=> (
+<div className="
+grid
+grid-cols-6
+gap-3
+px-6
+pt-28
+">
+
+
+{
+Array.from(
+ {length:bubbleCount}
+).map((_,index)=> (
 
 <button
 
-key={bubble.id}
+key={index}
 
-onClick={() => popBubble(bubble.id)}
+onClick={() => popBubble(index)}
 
-className="
-bubble
-absolute
+className={`
+aspect-square
 rounded-full
-transition
-active:scale-75
-bg-gradient-to-br
-from-blue-100
-to-purple-200
-shadow-lg
 border
-border-white/70
-"
+transition-all
+duration-200
+
+${
+popping === index
+?
+"bubble-pop"
+
+:
+""
+}
 
 
-style={{
+${
+popped.includes(index)
 
-left:`${bubble.x}%`,
+?
+"scale-90 bg-gray-100 border-gray-200"
 
-top:`${bubble.y}%`,
+:
 
-width:bubble.size,
+"bg-gradient-to-br from-blue-100 to-purple-200 border-white shadow-md active:scale-75"
 
-height:bubble.size,
+}
 
-}}
+`}
 
 >
 
 
+{!popped.includes(index) && (
+
 <div className="
-absolute
-top-3
-left-4
-h-3
-w-3
+mx-auto
+mt-2
+h-2
+w-2
 rounded-full
 bg-white
 opacity-70
-pointer-events-none
 "/>
 
+)}
+
+
 </button>
-))}
+
+))
+}
+
+
+</div>
 
 </div>
 
