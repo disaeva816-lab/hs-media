@@ -95,7 +95,7 @@ export default function BottomNavigation() {
             flex
             flex-col
             items-center
-            gap-1
+            gap-0.5
             text-xs
             text-gray-600
           "
