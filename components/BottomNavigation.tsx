@@ -44,7 +44,7 @@ export default function BottomNavigation() {
       border-t
       border-gray-100
       bg-white
-      shadow-[0_-8px_24px_rgba(15,23,42,0.08)]
+      shadow-[0_-4px_12px_rgba(0,0,0,0.04)]
     ">
 
 
@@ -95,9 +95,9 @@ export default function BottomNavigation() {
             flex
             flex-col
             items-center
-            gap-0.5
+            gap-1
             text-xs
-            text-blue-900
+            text-gray-600
           "
 
         >
@@ -112,7 +112,7 @@ export default function BottomNavigation() {
             items-center
             justify-center
             rounded-full
-            bg-blue-900
+            bg-gray-900
             text-white
             shadow-lg
             ring-4
@@ -229,9 +229,9 @@ function NavItem({
         ${
           active
 
-          ? "text-blue-900"
+          ? "text-gray-900"
 
-          : "text-blue-700"
+          : "text-gray-400"
 
         }
       `}
