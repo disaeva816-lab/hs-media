@@ -497,12 +497,16 @@ popped.includes(index)
 
 
     </div>
+    
 
   </div>
+            
 
 )}
+</div>
+)}
 
-        {mode === "breathing" && (
+{mode === "breathing" && (
 
           <div className="mt-5 rounded-3xl bg-white p-10 shadow-sm">
 
@@ -540,8 +544,10 @@ ${breathingScale}
             </div>
 
           </div>
+          
 
         )}
+        
 
         {mode === "menu" && (
 
