@@ -362,7 +362,7 @@ popped.includes(index)
 
 :
 
-"border-sky-200 bg-gradient-to-br from-white via-sky-200 to-blue-500 shadow-[0_10px_25px_rgba(59,130,246,.45)] active:scale-75"
+"border-sky-200 bg-gradient-to-br from-white via-sky-200 to-blue-300 shadow-[0_10px_25px_rgba(59,130,246,.45)] active:scale-75"
 
 }
                   `}
@@ -514,8 +514,8 @@ h-52
 w-52
 rounded-full
 bg-gradient-to-br
-from-sky-300
-to-blue-500
+from-sky-500
+to-blue-900
 shadow-[0_20px_60px_rgba(59,130,246,.45)]
 transition-all
 duration-[4000ms]
