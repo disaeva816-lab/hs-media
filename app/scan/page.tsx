@@ -260,12 +260,15 @@ export default function ScanPage() {
     {/* Камера */}
 
     <div
-      id="qr-reader"
-      className="
-        absolute
-        inset-0
-      "
-    />
+  id="qr-reader"
+  className="
+    absolute
+    inset-0
+    h-screen
+    w-screen
+    overflow-hidden
+  "
+/>
 
 
 

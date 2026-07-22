@@ -122,3 +122,13 @@ body {
 .bubble-pop {
   animation: bubble-pop 220ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
+#qr-reader {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+#qr-reader video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
