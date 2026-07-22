@@ -9,9 +9,10 @@ import {
 } from "lucide-react";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSound } from "@/hooks/useSound";
 
+const BUBBLE_COUNT = 36;
 
 const messages = [
   "Сегодня ты уже сделала достаточно. Правда. 🤍",
@@ -73,101 +74,121 @@ const messages = [
   "Сегодня обязательно случится что-то хорошее. 🤍",
 
   "Спасибо, что открыла именно этот пузырёк. 🫧"
+
 ];
 
+type Mode =
+  | "menu"
+  | "bubbles"
+  | "breathing";
 
 export default function RelaxPage() {
-
 
   const router = useRouter();
 
   const { playSound } = useSound();
 
-
   const [mode, setMode] =
-    useState<"menu" | "bubbles" | "breathing">("menu");
+    useState<Mode>("menu");
 
-
-  const bubbleCount = 36;
-
+  const [secretBubble, setSecretBubble] =
+    useState(() =>
+      Math.floor(
+        Math.random() * BUBBLE_COUNT
+      )
+    );
 
   const [popped, setPopped] =
     useState<number[]>([]);
 
-
   const [popping, setPopping] =
     useState<number | null>(null);
 
-
-  const [messageBubble, setMessageBubble] =
-    useState(
-      Math.floor(Math.random() * bubbleCount)
-    );
-
+  const [showMessage, setShowMessage] =
+    useState(false);
 
   const [message, setMessage] =
     useState("");
 
+  const [phase, setPhase] =
+    useState<
+      "inhale" |
+      "hold" |
+      "exhale"
+    >("inhale");
 
+  useEffect(() => {
 
+    if (mode !== "breathing") return;
 
+    let timer: NodeJS.Timeout;
 
-  function restartBubbles(){
+    switch (phase) {
+
+      case "inhale":
+
+        timer = setTimeout(() => {
+
+          setPhase("hold");
+
+        }, 4000);
+
+        break;
+
+      case "hold":
+
+        timer = setTimeout(() => {
+
+          setPhase("exhale");
+
+        }, 2000);
+
+        break;
+
+      case "exhale":
+
+        timer = setTimeout(() => {
+
+          setPhase("inhale");
+
+        }, 4000);
+
+        break;
+
+    }
+
+    return () => clearTimeout(timer);
+
+  }, [phase, mode]);
+
+  function restartBubbles() {
 
     setPopped([]);
 
     setPopping(null);
 
+    setShowMessage(false);
+
     setMessage("");
 
-    setMessageBubble(
+    setSecretBubble(
+
       Math.floor(
-        Math.random() * bubbleCount
+        Math.random() *
+        BUBBLE_COUNT
       )
+
     );
 
-}
+  }
 
+  function popBubble(index:number){
 
-
-
-
-  function popBubble(id:number){
-
-
-    if(popped.includes(id)) return;
-
-
-
-    if (id === messageBubble) {
-
-  playSound("pop");
-
-  setMessage(
-    messages[
-      Math.floor(Math.random() * messages.length)
-    ]
-  );
-
-  setPopping(id);
-
-  setTimeout(() => {
-
-    setPopped(prev => [...prev, id]);
-
-    setPopping(null);
-
-  }, 200);
-
-  return;
-
-}
-
-
+    if(
+      popped.includes(index)
+    ) return;
 
     playSound("pop");
-
-
 
     if(
       typeof navigator !== "undefined" &&
@@ -178,523 +199,360 @@ export default function RelaxPage() {
 
     }
 
-
-
-    setPopping(id);
-
-
+    setPopping(index);
 
     setTimeout(()=>{
 
+      if(index === secretBubble){
 
-      setPopped(prev=>[
-        ...prev,
-        id
-      ]);
+        setMessage(
 
+          messages[
+            Math.floor(
+              Math.random() *
+              messages.length
+            )
+          ]
+
+        );
+
+        setShowMessage(true);
+
+        setPopped(
+
+          Array.from(
+            {
+              length:BUBBLE_COUNT
+            },
+            (_,i)=>i
+          )
+
+        );
+
+      }else{
+
+        setPopped(prev=>[
+          ...prev,
+          index
+        ]);
+
+      }
 
       setPopping(null);
 
-
-    },200);
-
+    },180);
 
   }
 
+  const breathingText =
 
+    phase === "inhale"
 
+      ? "Вдох"
 
+      : phase === "hold"
 
+      ? "Задержите дыхание"
+
+      : "Выдох";
+
+  const breathingScale =
+
+    phase === "inhale"
+
+      ? "scale-125"
+
+      : phase === "hold"
+
+      ? "scale-125"
+
+      : "scale-90";
 
   return (
 
-    <main className="
-      min-h-screen
-      bg-[#F7F8FA]
-    ">
+    <main className="min-h-screen bg-[#F7F8FA]">
 
-
-      <div className="
-        mx-auto
-        max-w-md
-        px-6
-        pt-6
-        pb-24
-      ">
-
-
+      <div className="mx-auto max-w-md px-6 pt-6 pb-24">
 
         <button
-
-          onClick={()=>router.back()}
-
-          className="
-            mb-6
-            flex
-            items-center
-            gap-2
-            text-sm
-            text-gray-500
-          "
-
+          onClick={() => router.back()}
+          className="mb-6 flex items-center gap-2 text-sm text-gray-500"
         >
 
           <ChevronLeft size={18}/>
 
           Назад
 
-
         </button>
 
+        <div className="rounded-3xl bg-white p-6 shadow-sm">
 
+          <div className="flex items-center gap-3">
 
-
-
-        <div className="
-          rounded-3xl
-          bg-white
-          p-6
-          shadow-sm
-        ">
-
-
-          <div className="
-            flex
-            items-center
-            gap-3
-          ">
-
-
-            <div className="
-              flex
-              h-12
-              w-12
-              items-center
-              justify-center
-              rounded-2xl
-              bg-blue-50
-              text-blue-700
-            ">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-700">
 
               <Sparkles size={24}/>
 
-
             </div>
-
 
             <div>
 
-              <h1 className="
-                text-2xl
-                font-semibold
-                text-gray-900
-              ">
+              <h1 className="text-2xl font-semibold text-gray-900">
 
                 Перезагрузка
 
               </h1>
 
-
-              <p className="
-                text-sm
-                text-gray-500
-              ">
+              <p className="text-sm text-gray-500">
 
                 Минутка спокойствия
 
-
               </p>
 
-
             </div>
-
 
           </div>
 
-
         </div>
+                {mode === "bubbles" && (
 
+          <div className="mt-5 rounded-3xl bg-white p-5 shadow-sm">
 
+            <div className="text-center">
 
-
-
-
-
-        {mode === "bubbles" && (
-
-          <div className="
-            mt-5
-            rounded-3xl
-            bg-white
-            p-5
-            shadow-sm
-          ">
-
-
-            <div className="
-              text-center
-            ">
-
-
-              <h2 className="
-                font-semibold
-                text-gray-900
-              ">
-
+              <h2 className="font-semibold text-gray-900">
                 Лопни пузырьки 🫧
-
               </h2>
 
-
-              <p className="
-                mt-1
-                text-sm
-                text-gray-500
-              ">
-
-                Один из них хранит послание ✨
-
+              <p className="mt-1 text-sm text-gray-500">
+                Один из пузырьков хранит сюрприз ✨
               </p>
-
 
             </div>
 
-
-
-
-
-            <div className="
-              mt-6
-              grid
-              grid-cols-6
-              gap-3
-            ">
-
+            <div className="mt-6 grid grid-cols-6 gap-3">
 
               {Array.from({
-                length:bubbleCount
-              }).map((_,index)=>(
-
+                length: BUBBLE_COUNT
+              }).map((_, index) => (
 
                 <button
 
                   key={index}
 
-                  onClick={()=>
-                    popBubble(index)
-                  }
-
+                  onClick={() => popBubble(index)}
 
                   className={`
-                    relative
-                    overflow-hidden
-                    aspect-square
-                    rounded-full
-                    border
-                    transition-all
-                    duration-200
+relative
+overflow-hidden
+aspect-square
+rounded-full
+transition-all
+duration-200
+border
 
-                    ${
-                      popping===index
-                      ?
-                      "bubble-pop"
-                      :
-                      ""
-                    }
+${popping === index ? "bubble-pop" : ""}
 
+${
+popped.includes(index)
 
-                    ${
-                      popped.includes(index)
+?
 
-                      ?
-                      "scale-90 bg-gray-100 border-gray-200"
+"scale-90 bg-slate-200 border-slate-300"
 
-                      :
+:
 
-                      "bg-gradient-to-br from-white via-sky-100 to-cyan-300 border-cyan-100 shadow-[0_6px_15px_rgba(56,189,248,0.25)]"
+"border-sky-200 bg-gradient-to-br from-white via-sky-200 to-blue-500 shadow-[0_10px_25px_rgba(59,130,246,.45)] active:scale-75"
 
-
-                    }
-
+}
                   `}
-
                 >
 
-                  {
-                    !popped.includes(index)
-                    &&
-                    <div
-className="
-absolute
-left-3
-top-3
-h-3
-w-3
-rounded-full
-bg-white
-opacity-90
-blur-[0.3px]
-"/>
-                  }
+                  {!popped.includes(index) && (
 
+                    <>
+                      <div className="absolute left-3 top-3 h-3 w-3 rounded-full bg-white/95" />
+
+                      <div className="absolute right-4 top-5 h-1.5 w-1.5 rounded-full bg-white/80" />
+                    </>
+
+                  )}
 
                 </button>
 
-
               ))}
 
+            </div>
 
+            {showMessage && (
 
-    
-{message && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-6">
 
-<div
-  className="
-    mt-6
-    rounded-3xl
-    bg-gradient-to-br
-    from-sky-50
-    via-white
-    to-cyan-50
-    border
-    border-sky-100
-    p-6
-    text-center
-    shadow-sm
-  "
->
+                <div className="w-full max-w-sm rounded-[34px] bg-white p-8 text-center shadow-2xl">
 
-  <p
-    className="
-      text-xs
-      uppercase
-      tracking-[0.2em]
-      text-sky-500
-      font-semibold
-    "
-  >
-    ✨ Секретный пузырёк
-  </p>
+                  <div className="text-6xl">
 
-  <div className="my-5 text-4xl">
-    💙
-  </div>
+                    🤍
 
-  <p
-    className="
-      text-xl
-      leading-relaxed
-      font-medium
-      text-gray-800
-    "
-  >
-    {message}
+                  </div>
 
-        </p>
+                  <p className="mt-4 text-xs uppercase tracking-[0.3em] text-sky-500">
 
-</div>
+                    Послание
 
-)}
+                  </p>
 
+                  <p className="mt-6 text-2xl font-semibold leading-relaxed text-gray-900">
 
+                    {message}
 
-            {popped.length >= bubbleCount-1 && (
+                  </p>
 
-              <button
+                  <button
 
-                onClick={restartBubbles}
+                    onClick={restartBubbles}
 
-                className="
-                  mt-5
-                  flex
-                  w-full
-                  items-center
-                  justify-center
-                  gap-2
-                  rounded-3xl
-                  bg-gray-900
-                  py-4
-                  text-white
-                "
+                    className="mt-8 w-full rounded-2xl bg-sky-500 py-4 font-semibold text-white transition active:scale-95"
 
-              >
+                  >
 
-                <RotateCcw size={18}/>
+                    <div className="flex items-center justify-center gap-2">
 
-                Повторить
+                      <RotateCcw size={18}/>
 
+                      Начать заново
 
-              </button>
+                    </div>
 
+                  </button>
+
+                </div>
+
+              </div>
 
             )}
 
-
-
           </div>
-
 
         )}
 
+        {mode === "breathing" && (
 
+          <div className="mt-5 rounded-3xl bg-white p-10 shadow-sm">
 
+            <div className="flex flex-col items-center">
 
+              <div
+                className={`
+h-52
+w-52
+rounded-full
+bg-gradient-to-br
+from-sky-300
+to-blue-500
+shadow-[0_20px_60px_rgba(59,130,246,.45)]
+transition-all
+duration-[4000ms]
+${breathingScale}
+`}
+              />
 
-        {mode==="menu" && (
+              <p className="mt-10 text-3xl font-semibold text-gray-900">
 
-          <div className="
-            mt-5
-            space-y-4
-          ">
+                {breathingText}
 
+              </p>
+
+              <p className="mt-3 text-center text-gray-500">
+
+                Вдох — 4 сек<br/>
+                Задержка — 2 сек<br/>
+                Выдох — 4 сек
+
+              </p>
+
+            </div>
+
+          </div>
+
+        )}
+
+        {mode === "menu" && (
+
+          <div className="mt-5 space-y-4">
 
             <button
 
-              onClick={()=>
-                setMode("bubbles")
-              }
+              onClick={() => setMode("bubbles")}
 
-              className="
-                flex
-                w-full
-                items-center
-                gap-4
-                rounded-3xl
-                bg-white
-                p-5
-                text-left
-                shadow-sm
-              "
+              className="flex w-full items-center gap-4 rounded-3xl bg-white p-5 text-left shadow-sm"
 
             >
 
-              <div className="
-                flex
-                h-14
-                w-14
-                items-center
-                justify-center
-                rounded-2xl
-                bg-blue-50
-                text-blue-700
-              ">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-700">
 
                 <CircleDot size={28}/>
 
               </div>
 
-
               <div>
 
-                <h2 className="
-                  font-semibold
-                  text-gray-900
-                ">
+                <h2 className="font-semibold text-gray-900">
 
                   Пузырьки
 
                 </h2>
 
+                <p className="mt-1 text-sm text-gray-500">
 
-                <p className="
-                  mt-1
-                  text-sm
-                  text-gray-500
-                ">
-
-                  Лопни шарики и получи послание 💙
+                  Лопни шарики и найди секретное послание 💙
 
                 </p>
 
               </div>
 
-
             </button>
-
-
-
-
-
 
             <button
 
-              onClick={()=>
-                setMode("breathing")
-              }
+              onClick={() => setMode("breathing")}
 
-              className="
-                flex
-                w-full
-                items-center
-                gap-4
-                rounded-3xl
-                bg-white
-                p-5
-                text-left
-                shadow-sm
-              "
+              className="flex w-full items-center gap-4 rounded-3xl bg-white p-5 text-left shadow-sm"
 
             >
 
-              <div className="
-                flex
-                h-14
-                w-14
-                items-center
-                justify-center
-                rounded-2xl
-                bg-green-50
-                text-green-700
-              ">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-green-50 text-green-700">
 
                 <Wind size={28}/>
 
               </div>
 
-
               <div>
 
-                <h2 className="
-                  font-semibold
-                  text-gray-900
-                ">
+                <h2 className="font-semibold text-gray-900">
 
                   Дыхание
 
                 </h2>
 
+                <p className="mt-1 text-sm text-gray-500">
 
-                <p className="
-                  mt-1
-                  text-sm
-                  text-gray-500
-                ">
-
-                  Спокойный ритм на минуту
+                  Минутная практика расслабления
 
                 </p>
 
-
               </div>
 
-
             </button>
-
 
           </div>
 
         )}
 
-
-
-
       </div>
-
 
     </main>
 
-
   );
-
 
 }
