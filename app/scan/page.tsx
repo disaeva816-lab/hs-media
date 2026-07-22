@@ -360,19 +360,7 @@ export default function ScanPage() {
     ">
 
 
-      <div className="
-        rounded-full
-        bg-black/50
-        px-5
-        py-3
-        text-sm
-        text-white
-        backdrop-blur
-      ">
-
-        Готов к сканированию
-
-      </div>
+  
 
 
     </div>
