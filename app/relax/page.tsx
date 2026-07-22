@@ -240,7 +240,7 @@ export default function RelaxPage() {
 
       setPopping(null);
 
-    },180);
+    },220);
 
   }
 
