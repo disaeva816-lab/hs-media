@@ -7,13 +7,11 @@ import {
   UserRound,
   Package,
   Plus,
+  Wind,
 } from "lucide-react";
 
 import { useUser } from "@/context/UserContext";
 import { useEquipment } from "@/context/EquipmentContext";
-import {
-  Wind,
-} from "lucide-react";
 
 export default function ProfilePage() {
 
@@ -151,55 +149,68 @@ export default function ProfilePage() {
 
         </div>
 
-        <button
+      <button
 
   onClick={() => router.push("/my")}
 
   className="
     mt-4
+    flex
     w-full
+    items-center
+    gap-4
     rounded-3xl
     bg-white
     p-5
-    shadow-sm
     text-left
+    shadow-sm
+    transition
+    active:scale-[0.98]
   "
 
 >
 
-  <div className="
-    flex
-    items-center
-    gap-3
-  ">
+  <div
 
-    <Package
-      size={20}
-      className="text-gray-600"
-    />
+    className="
+      flex
+      h-12
+      w-12
+      items-center
+      justify-center
+      rounded-2xl
+      bg-blue-50
+      text-blue-700
+    "
 
-    <div>
+  >
 
-      <p className="
-        text-sm
-        text-gray-500
-      ">
+    <Package size={24}/>
 
-        Моё оборудование
-
-      </p>
+  </div>
 
 
-      <p className="
-        font-semibold
-        text-gray-900
-      ">
+  <div>
 
-        {myEquipmentCount} {myEquipmentCount === 1 ? "устройство" : "устройств"}
+    <p className="
+      font-semibold
+      text-gray-900
+    ">
 
-      </p>
+      Моё оборудование
 
-    </div>
+    </p>
+
+
+    <p className="
+      mt-1
+      text-sm
+      text-gray-500
+    ">
+
+      {myEquipmentCount} {myEquipmentCount === 1 ? "устройство" : "устройств"}
+
+    </p>
 
   </div>
 
@@ -272,61 +283,71 @@ export default function ProfilePage() {
   </button>
 
 )}
+
 <button
 
-onClick={() => router.push("/relax")}
+  onClick={() => router.push("/relax")}
 
-className="
-mt-4
-flex
-w-full
-items-center
-gap-4
-rounded-3xl
-bg-white
-p-5
-shadow-sm
-"
+  className="
+    mt-4
+    flex
+    w-full
+    items-center
+    gap-4
+    rounded-3xl
+    bg-white
+    p-5
+    text-left
+    shadow-sm
+    transition
+    active:scale-[0.98]
+  "
 
 >
 
-<div className="
-flex
-h-12
-w-12
-items-center
-justify-center
-rounded-2xl
-bg-blue-50
-text-blue-700
-">
+  <div
 
-<Wind size={24}/>
+    className="
+      flex
+      h-12
+      w-12
+      items-center
+      justify-center
+      rounded-2xl
+      bg-blue-50
+      text-blue-700
+    "
 
-</div>
+  >
+
+    <Wind size={24}/>
+
+  </div>
 
 
-<div>
+  <div>
 
-<p className="
-font-semibold
-text-gray-900
-">
+    <p className="
+      font-semibold
+      text-gray-900
+    ">
 
-Перезагрузка
+      Перезагрузка
 
-</p>
+    </p>
 
-<p className="
-text-sm
-text-gray-500
-">
 
-Минутка спокойствия
+    <p className="
+      mt-1
+      text-sm
+      text-gray-500
+    ">
 
-</p>
+      Минутка спокойствия
 
-</div>
+    </p>
+
+  </div>
 
 
 </button>
