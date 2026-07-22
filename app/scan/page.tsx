@@ -63,12 +63,14 @@ export default function ScanPage() {
 
 
           {
-            fps: 10,
+  fps: 10,
 
-            qrbox: {
-              width: 250,
-              height: 250,
-            },
+  aspectRatio: 1.7777778,
+
+  qrbox: {
+    width: 250,
+    height: 250,
+  },
 
           },
 
@@ -250,12 +252,11 @@ export default function ScanPage() {
   return (
 
   <main className="
-    relative
-    min-h-screen
-    overflow-hidden
-    bg-black
-  ">
-
+  relative
+  h-[100dvh]
+  overflow-hidden
+  bg-black
+">
 
     {/* Камера */}
 
@@ -264,8 +265,8 @@ export default function ScanPage() {
   className="
     absolute
     inset-0
-    h-screen
-    w-screen
+    h-full
+    w-full
     overflow-hidden
   "
 />
