@@ -386,55 +386,121 @@ popped.includes(index)
 
             {showMessage && (
 
-              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-6">
+  <div
+    className="
+      fixed
+      inset-0
+      z-50
+      flex
+      items-center
+      justify-center
+      bg-black/40
+      backdrop-blur-md
+      px-6
+      animate-in
+      fade-in
+      duration-500
+    "
+  >
 
-                <div className="w-full max-w-sm rounded-[34px] bg-white p-8 text-center shadow-2xl">
+    <div
+      className="
+        w-full
+        max-w-sm
+        rounded-[36px]
+        bg-white/80
+        backdrop-blur-xl
+        border
+        border-white/70
+        p-8
+        text-center
+        shadow-[0_20px_70px_rgba(0,0,0,0.18)]
+        animate-in
+        zoom-in-95
+        slide-in-from-bottom-5
+        duration-500
+      "
+    >
 
-                  <div className="text-6xl">
+      <div
+        className="
+          mx-auto
+          flex
+          h-16
+          w-16
+          items-center
+          justify-center
+          rounded-full
+          bg-sky-100
+          text-3xl
+        "
+      >
+        🫧
+      </div>
 
-                    🤍
 
-                  </div>
+      <p
+        className="
+          mt-5
+          text-xs
+          uppercase
+          tracking-[0.35em]
+          text-sky-500
+        "
+      >
+        Послание
+      </p>
 
-                  <p className="mt-4 text-xs uppercase tracking-[0.3em] text-sky-500">
 
-                    Послание
+      <p
+        className="
+          mt-6
+          text-xl
+          font-medium
+          leading-relaxed
+          text-gray-800
+        "
+      >
+        {message}
+      </p>
 
-                  </p>
 
-                  <p className="mt-6 text-2xl font-semibold leading-relaxed text-gray-900">
+      <button
 
-                    {message}
+        onClick={restartBubbles}
 
-                  </p>
+        className="
+          mt-8
+          flex
+          w-full
+          items-center
+          justify-center
+          gap-2
+          rounded-2xl
+          bg-sky-400
+          py-4
+          font-semibold
+          text-white
+          shadow-lg
+          shadow-sky-200
+          transition
+          active:scale-95
+        "
 
-                  <button
+      >
 
-                    onClick={restartBubbles}
+        <RotateCcw size={18}/>
 
-                    className="mt-8 w-full rounded-2xl bg-sky-500 py-4 font-semibold text-white transition active:scale-95"
+        Начать заново
 
-                  >
+      </button>
 
-                    <div className="flex items-center justify-center gap-2">
 
-                      <RotateCcw size={18}/>
+    </div>
 
-                      Начать заново
+  </div>
 
-                    </div>
-
-                  </button>
-
-                </div>
-
-              </div>
-
-            )}
-
-          </div>
-
-        )}
+)}
 
         {mode === "breathing" && (
 
