@@ -87,8 +87,8 @@ export default function ProfilePage() {
                 alt="Фото пользователя"
 
                 className="
-                  h-30
-                  w-30
+                  h-40
+                  w-40
                   rounded-full
                   object-cover
                 "
@@ -101,8 +101,8 @@ export default function ProfilePage() {
 
                 className="
                   flex
-                  h-24
-                  w-24
+                  h-28
+                  w-28
                   items-center
                   justify-center
                   rounded-full
